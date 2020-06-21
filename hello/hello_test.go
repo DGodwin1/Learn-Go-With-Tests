@@ -72,4 +72,16 @@ func TestHello(t *testing.T) {
 		assertCorrect(t, got, want)
 	})
 
+	t.Run("Language should default to English if language is empty", func(t *testing.T){
+		got := Hello("David", "")
+		want := "Hello, David"
+		assertCorrect(t, got, want)
+	})
+
+	t.Run("Default to English if language isn't supported", func(t *testing.T){
+		got := Hello("David", "PHP")
+		want := "Hello, David"
+		assertCorrect(t, got, want)
+	})
+
 }
