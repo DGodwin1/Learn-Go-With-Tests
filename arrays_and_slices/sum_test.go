@@ -54,9 +54,9 @@ func TestSumAll(t *testing.T){
 
 	t.Run("Test adding a zero tail", func(t *testing.T){
 		got := SumAllTails([]int{1}, []int{1})
-		// Here we'll say that it should give back 0,0, but it could just easily abort and say 'nope'
-		// because it can't operate.
+		// Here we'll say that it should give back 0,0, but it could just easily abort and say 'nope'.
 		want := []int{0,0}
+
 		if !reflect.DeepEqual(got, want){
 			t.Errorf("got %d wanted %d", got, want)
 		}
