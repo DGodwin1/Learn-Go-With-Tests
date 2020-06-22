@@ -12,8 +12,28 @@ func Sum(n []int) int {
 	for _, v := range n {
 
 		final += v
-
 	}
 	return final
+}
 
+func SumAll(nums ...[]int) []int {
+	//go over reach arg, call SUM and add that result to a final slice.
+	var final []int
+	for _, v := range nums {
+		final = append(final, Sum(v))
+	}
+
+	return final
+}
+
+func SumAllTails(nums ...[]int) []int {
+	var final []int
+	for _, v := range nums {
+		if len(v) == 0 {
+			final = append(final, 0)
+		} else {
+			final = append(final, Sum(v[1:]))
+		}
+	}
+	return final
 }
