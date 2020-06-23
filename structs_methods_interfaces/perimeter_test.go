@@ -18,30 +18,37 @@ func TestPerimeter(t *testing.T) {
 
 func TestArea(t *testing.T) {
 	areaTests := []struct {
+		name  string
 		shape Shape
 		want  float64
 	}{
-		{shape: Rectangle{Width: 12, Height: 6},
-			want: 72.0},
+		{
+			name:  "Rectangle",
+			shape: Rectangle{Width: 12, Height: 6},
+			want:  72.0},
 
-		{shape: Circle{radius: 10},
-			want: 314.1592653589793},
+		{
+			name:  "Circle",
+			shape: Circle{radius: 10},
+			want:  314.1592653589793},
 
-			{shape: Triangle{Base: 10, Height: 10},
-			want: 50.0},
+		{
+			name:  "Triangle",
+			shape: Triangle{Base: 10, Height: 10},
+			want:  50.0},
 	}
 
 	// Iterate over each item in the areaTest slice.
 	// We don't care about the index, which is why we use _
 	for _, tt := range areaTests {
-		
+
 		// At each item in the slice, look at the shape (.shape) and then call its Area() method
 		got := tt.shape.Area()
 
 		// See if the value for the shape's area is the same as the corresponding 'want'
 		// value for that entry in the slice.
 		if got != tt.want {
-			t.Errorf("Area received: %g. Area wanted: %g. Tested: %v", got, tt.want, tt)
+			t.Errorf("Area received: %g. Area wanted: %g. Tested: %v", got, tt.want, tt.name)
 		}
 	}
 }
