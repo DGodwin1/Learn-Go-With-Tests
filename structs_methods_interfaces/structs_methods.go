@@ -2,8 +2,8 @@ package structs_methods_interfaces
 
 import "math"
 
-func Area(b, h float64) float64{
-	return b*h
+type Shape interface{
+	Area() float64
 }
 
 type Rectangle struct {
@@ -11,12 +11,13 @@ type Rectangle struct {
 	Height float64
 }
 
-type Apple struct{
-	area float64
+type Circle struct{
+	radius float64
 }
 
-type Shape interface{
-	Area() float64
+type Triangle struct{
+	Base float64
+	Height float64
 }
 
 func (r Rectangle) Perimeter() float64{
@@ -31,8 +32,8 @@ func (c Circle) Area() float64{
 	return c.radius * c.radius * math.Pi
 }
 
-type Circle struct{
-	radius float64
+func (t Triangle) Area() float64{
+	return (t.Height * t.Base)/2
 }
 
 
