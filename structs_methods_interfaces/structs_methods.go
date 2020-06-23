@@ -9,7 +9,14 @@ func Area(b, h float64) float64{
 type Rectangle struct {
 	Width float64
 	Height float64
+}
 
+type Apple struct{
+	area float64
+}
+
+type Shape interface{
+	Area() float64
 }
 
 func (r Rectangle) Perimeter() float64{
@@ -27,4 +34,5 @@ func (c Circle) Area() float64{
 type Circle struct{
 	radius float64
 }
+
 
