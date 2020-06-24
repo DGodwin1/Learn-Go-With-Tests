@@ -21,22 +21,43 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T){
-	t.Run("Add word to dictionary", func(t *testing.T){
+	t.Run("Add word that doesn't exist", func(t *testing.T){
 		dictionary := Dictionary{}
-		dictionary.Add("budweiser","beer")
+		word := "budweiser"
+		definition := "beer"
+		dictionary.Add(word,definition)
 
 		// Now let's find the word in the dictionary
-		got, err := dictionary.Search("budweiser")
-		want := "beer"
-
-		if err != nil{
-			t.Fatal("should find added word:", err)
-		}
-
-		SearchHelper(t, got, want, "budweiser")
+		assertDefinition(t, dictionary, word, definition)
 
 	})
+	t.Run("Add word that already exists", func(t *testing.T){
+		dictionary := Dictionary{"budweiser":"beer"}
+
+		// Refuse to add word that already exists.
+		err := dictionary.Add("budweiser","drink")
+
+		if err == nil{
+			t.Fatal("should have got an error", err)
+		}
+		// Definition should be for beer.
+		assertDefinition(t, dictionary, "budweiser", "beer")
+	})
 }
+
+func TestUpdate(t *testing.T){
+	t.Run("Update a word that already exists", func(t *testing.T) {
+		dictionary := Dictionary{"budweiser":"drink"}
+		err := dictionary.Update("budweiser","beer")
+		if err != nil{
+			t.Fatal("shouldn't have gotten an error", err)
+		}
+		assertDefinition(t, dictionary, "budweiser", "beer")
+
+	})
+
+	}
+
 
 func SearchHelper(t *testing.T, got string, want string, key string) {
 	t.Helper()
@@ -45,4 +66,17 @@ func SearchHelper(t *testing.T, got string, want string, key string) {
 		t.Errorf("Got %q but wanted %q given key: %q", got, want, key)
 	}
 
+}
+
+func assertDefinition(t *testing.T, dictionary Dictionary, word, definition string) {
+	t.Helper()
+
+	got, err := dictionary.Search(word)
+	if err != nil {
+		t.Fatal("should find added word:", err)
+	}
+
+	if definition != got {
+		t.Errorf("got %q want %q", got, definition)
+	}
 }
