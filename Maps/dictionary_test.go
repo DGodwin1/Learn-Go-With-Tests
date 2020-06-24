@@ -2,14 +2,30 @@ package Maps
 
 import "testing"
 
-func TestSearch(t *testing.T){
-	// map[string]string == a map will contain a string key which
-	// will deliver a string value.
-	dictionary := map[string]string{"test":"this is just a test"}
-	got := Search(dictionary, "test")
-	want := "this is just a test"
+func TestSearch(t *testing.T) {
+	t.Run("word in dictionary", func(t *testing.T) {
+		dictionary := Dictionary{"test": "this is just a test"}
+		key := "test"
+		got := dictionary.Search(key)
+		want := "this is just a test"
 
-	if got != want{
-		t.Errorf("Got %q but wanted %q given key: %q", got, want, "test")
+		SearchHelper(t, got, want, key)
+	})
+
+	t.Run("word not in dictionary", func(t *testing.T) {
+		dictionary := Dictionary{"word": "a value"}
+		key := "hello"
+		got := dictionary.Search(key)
+		want := "word does not exist"
+		SearchHelper(t, got, want, key)
+	})
+}
+
+func SearchHelper(t *testing.T, got string, want string, key string) {
+	t.Helper()
+
+	if got != want {
+		t.Errorf("Got %q but wanted %q given key: %q", got, want, key)
 	}
+
 }
