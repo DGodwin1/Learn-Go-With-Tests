@@ -36,9 +36,13 @@ func (d Dictionary) Update(word, definition string) error{
 	if err != nil{
 		errors.New("Word not found so can't update it")
 	}
-	
+
 	d[word] = definition
 	return nil
+}
+
+func (d Dictionary) Delete(word string) {
+	delete(d,word)
 }
 
 
