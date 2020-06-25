@@ -58,6 +58,9 @@ func TestUpdate(t *testing.T){
 
 	}
 func TestDelete(t *testing.T) {
+	// https://golang.org/src/builtin/builtin.go?s=5287:5326#L136
+	// Turns out delete() will only delete if the element is present.
+	// If the element isn't there then 'delete is no-op'.
 	t.Run("Delete a word from dictionary", func(t *testing.T) {
 		word := "budweiser"
 		dictionary := Dictionary{word: "drink"}
@@ -69,6 +72,8 @@ func TestDelete(t *testing.T) {
 		}
 
 	})
+
+
 }
 
 func SearchHelper(t *testing.T, got string, want string, key string) {
