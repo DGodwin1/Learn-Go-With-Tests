@@ -57,7 +57,19 @@ func TestUpdate(t *testing.T){
 	})
 
 	}
+func TestDelete(t *testing.T) {
+	t.Run("Delete a word from dictionary", func(t *testing.T) {
+		word := "budweiser"
+		dictionary := Dictionary{word: "drink"}
+		dictionary.Delete(word)
 
+		_, err := dictionary.Search(word)
+		if err != ErrWordNotFound {
+			t.Errorf("Expected %q to be deleted", word)
+		}
+
+	})
+}
 
 func SearchHelper(t *testing.T, got string, want string, key string) {
 	t.Helper()
