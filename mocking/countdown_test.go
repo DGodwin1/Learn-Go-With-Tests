@@ -24,6 +24,10 @@ Go!`
 		t.Errorf("got %q want %q", got, want)
 	}
 
+	// Faster than actual sleeping because you're not counting seconds.
+	// You're just iterating up a count. And because you call Sleep()
+	// four times in the process of executing countdown, then spySLeeper.Calls
+	// should equal 4 to reflect that sleeping 'sort of' took place.
 	if spySleeper.Calls != 4{
 		t.Errorf("not enough calls to sleeper, want 4 got %d", spySleeper.Calls)
 	}
