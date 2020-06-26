@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestCountdown(t *testing.T) {
@@ -21,14 +22,6 @@ func TestCountdown(t *testing.T) {
 
 		if got != want {
 			t.Errorf("got %q want %q", got, want)
-		}
-
-		// Faster than actual sleeping because you're not counting seconds.
-		// You're just incrementing a count. And because you call Sleep()
-		// four times in the process of executing countdown, then spySLeeper.Calls
-		// should equal 4 to reflect that sleeping 'sort of' took place.
-		if spySleeper.Calls != 4 {
-			t.Errorf("not enough calls to sleeper, want 4 got %d", spySleeper.Calls)
 		}
 	})
 
@@ -57,4 +50,17 @@ func TestCountdown(t *testing.T) {
 			t.Errorf("wanted calls %v but got %v", want, spySleepPrinter.Calls)
 		}
 	})
+}
+
+func TestConfigurableSleeper(t *testing.T){
+	sleepTime := 5 * time.Second
+
+	spyTime := &SpyTime{}
+	sleeper := ConfigurableSleeper{sleepTime, spyTime.Sleep}
+	sleeper.Sleep()
+
+	if spyTime.durationSlept != sleepTime{
+		t.Errorf("should have slept for %v but slept for %v", sleepTime, spyTime.durationSlept)
+	}
+
 }
