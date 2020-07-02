@@ -9,7 +9,7 @@ import (
 
 
 type Config struct {
-	URL string `json:"URL"`
+	URL []string `json:"URL"`
 	Hits int    `json:"Hits"`
 }
 
