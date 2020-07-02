@@ -1,16 +1,32 @@
-package json_tutorial
+package main
 
 import (
+	"fmt"
+	"io/ioutil"
+	"os"
 	"reflect"
 	"testing"
 )
 
 func TestJsonEncodesToStruct(t *testing.T){
-	got := ParseJSON()
+	t.Run("Open and decode a JSON file", func(t *testing.T) {
+		jsonFile, err := os.Open("stuff.json")
 
-	want := &Config{"https://www.google.com", 100}
+		if err != nil{
+			fmt.Println(err)
+		}
 
-	if !reflect.DeepEqual(got, want){
-		t.Errorf("Got %v, want %v", got, want)
-	}
+		defer jsonFile.Close()
+
+		FileInBytes, _ := ioutil.ReadAll(jsonFile)
+
+		got := ParseJSON(FileInBytes)
+
+		want := &Config{"https://www.google.com", 100}
+
+		if !reflect.DeepEqual(got, want){
+			t.Errorf("Got %v, want %v", got, want)
+		}
+	})
+
 }

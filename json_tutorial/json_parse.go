@@ -1,8 +1,10 @@
-package json_tutorial
+package main
 
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 
@@ -11,22 +13,37 @@ type Config struct {
 	Hits int    `json:"Hits"`
 }
 
-func ParseJSON() *Config {
+func main(){
+	// Open the file and defer a close
+	jsonFile, err := os.Open("stuff.json")
 
-	blob := []byte(`{
-		"URL": "https://www.google.com",
-		"Hits": 100
-	}`)
+	if err != nil{
+		fmt.Println(err)
+	}
 
-	f := &Config{}
+	defer jsonFile.Close()
 
-	err := json.Unmarshal(blob, f)
+	FileInBytes, _ := ioutil.ReadAll(jsonFile)
+
+	a := ParseJSON(FileInBytes)
+
+	fmt.Println(a.URL)
+	fmt.Println(a.Hits)
+
+
+}
+
+
+
+func ParseJSON(bytesData []byte) *Config {
+
+	parsed := &Config{}
+
+	err := json.Unmarshal(bytesData, parsed)
 
 	if err != nil {
 		fmt.Println("error", err)
 	}
 
-	fmt.Printf("Here it is decoded: %+v", f)
-
-	return f
+	return parsed
 }
